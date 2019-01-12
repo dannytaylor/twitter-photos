@@ -9,7 +9,8 @@ Twitter Photos
 
 Twitter Photos is a command-line tool to get photos from Twitter accounts.
 
-.. image:: twphotos.gif
+.. image:: https://asciinema.org/a/93714.png
+   :target: https://asciinema.org/a/93714
 
 Requirements
 ------------
@@ -17,6 +18,7 @@ Requirements
 * python-twitter
 * requests
 * urllib3
+* datetime
 
 Installation
 ------------
@@ -105,5 +107,7 @@ The "twphotos" command accepts the following options:
   -i, --increment       download only new photos since last download
   -e, --exclude_replies
                         exclude replies
-  -s SIZE, --size SIZE  photo size (``large``, ``medium``, ``small`` and ``thumb``)
+  -s SIZE, --size SIZE  photo size (``orig``, ``large``, ``medium``, ``small`` and ``thumb``)
   -t TYPE, --type TYPE  timeline type (``user`` and ``favorites``)
+  -v, --video           enable downloading of videos and gifs (note that twitter converts gifs to mp4 video)
+  -f, --filenaming      enable file download naming to DATE_TIME_HANDLE_MEDIA-TWEETID-NUMBER.filetype
