@@ -124,8 +124,16 @@ class TwitterPhotos(object):
                         post_time = datetime.datetime.strptime(s.created_at, "%a %b %d %H:%M:%S +0000 %Y").strftime("%y%m%d_%H%M%S")
                         m_name = (post_time + "_" + s.user.screen_name + "_" + str(s.id) + "_" + str(m_num))
 
-                        if self.video and (m_dict['type'] == ('animated_gif' or 'video')):
-                            t = (m_dict['id'], m.video_info['variants'][0]['url'])
+                        if self.video and ((m_dict['type'] == 'video') or (m_dict['type'] == 'animated_gif')):
+                            ct = 0
+                            bit_rate = 0
+                            if m_dict['type'] == 'video':
+                                for b in range(len(m.video_info['variants'])):
+                                    if m.video_info['variants'][b]['content_type'] == "video/mp4":
+                                        bit_check = m.video_info['variants'][b]['bitrate'] 
+                                        if bit_check > bit_rate:
+                                            ct = b                                
+                            t = (m_dict['id'], m.video_info['variants'][ct]['url'])
                             fetched_photos.append(t)
                             self.download_names.append(m_name)
                         elif m_dict['type'] == 'photo':

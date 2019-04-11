@@ -9,6 +9,8 @@ def download(media_url, size, outdir, download_name, file_naming):
     else:
         download_url = media_url + ':' + size
     r = requests.get(download_url, stream=True)
+    if file_type[-3:-1] == 'g=':
+        file_type = "mp4"
     if file_naming:
         bs = download_name + "." + file_type
     else:
