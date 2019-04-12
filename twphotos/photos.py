@@ -20,7 +20,7 @@ import twitter
 class TwitterPhotos(object):
     def __init__(self, user=None, list_slug=None, outdir=None,
                  num=None, parallel=False, increment=False, size=None,
-                 exclude_replies=False, tl_type=None, test=False, video = False, file_naming = False):
+                 exclude_replies=False, tl_type=None, test=False, gif = False, video = False, file_naming = False):
         """
         :param user: The screen_name of the user whom to return results for
         :param list_slug: The slug identifying the list owned by the `user`
@@ -35,7 +35,8 @@ class TwitterPhotos(object):
         :param: A boolean indicating whether to exlude replies tweets
         :param type: Timeline type represented as a string (one of `TIMELINE_TYPES`)
         :param test: A boolean indicating whether in test mode
-        :param video: A boolean indicated whether to include video and animated gifs
+        :param gif: A boolean indicated whether to download animated gifs
+        :param video: A boolean indicated whether to download video
         :param file_naming: A boolean indicating where to use tweet time and handle to name the downloads
         """
         self.user = user
@@ -48,6 +49,7 @@ class TwitterPhotos(object):
         self.exclude_replies = exclude_replies
         self.tl_type = tl_type
         self.test = test
+        self.gif = gif
         self.video = video
         self.file_naming = file_naming
 
@@ -124,7 +126,7 @@ class TwitterPhotos(object):
                         post_time = datetime.datetime.strptime(s.created_at, "%a %b %d %H:%M:%S +0000 %Y").strftime("%y%m%d_%H%M%S")
                         m_name = (post_time + "_" + s.user.screen_name + "_" + str(s.id) + "_" + str(m_num))
 
-                        if self.video and ((m_dict['type'] == 'video') or (m_dict['type'] == 'animated_gif')):
+                        if (self.video and m_dict['type'] == 'video') or (self.gif and m_dict['type'] == 'animated_gif'):
                             ct = 0
                             bit_rate = 0
                             if m_dict['type'] == 'video':
@@ -309,6 +311,7 @@ def main():
                              size=args.size,
                              exclude_replies=args.exclude_replies,
                              tl_type=args.type,
+                             gif=args.gif,
                              video=args.video,
                              file_naming=args.filenaming)
     # Print only scree_name, tweet id and media_url
